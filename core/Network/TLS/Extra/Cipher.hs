@@ -35,6 +35,7 @@ module Network.TLS.Extra.Cipher
     , cipher_DHE_DSS_RC4_SHA1
     , cipher_DHE_RSA_AES128GCM_SHA256
     , cipher_ECDHE_RSA_AES128GCM_SHA256
+    , cipher_ECDHE_ECDSA_AES128_SHA1
     ) where
 
 import qualified Data.ByteString as B
@@ -123,11 +124,12 @@ ciphersuite_all =
     , cipher_DHE_DSS_RC4_SHA1, cipher_RC4_128_SHA1,  cipher_RC4_128_MD5
     , cipher_RSA_3DES_EDE_CBC_SHA1
     , cipher_DHE_RSA_AES128GCM_SHA256
+    , cipher_ECDHE_ECDSA_AES128_SHA1
     ]
 
 -- | list of medium ciphers.
 ciphersuite_medium :: [Cipher]
-ciphersuite_medium = [cipher_RC4_128_MD5, cipher_RC4_128_SHA1, cipher_AES128_SHA1, cipher_AES256_SHA1]
+ciphersuite_medium = [cipher_RC4_128_MD5, cipher_RC4_128_SHA1, cipher_AES128_SHA1, cipher_AES256_SHA1, cipher_ECDHE_ECDSA_AES128_SHA1]
 
 -- | the strongest ciphers supported.
 ciphersuite_strong :: [Cipher]
@@ -376,6 +378,17 @@ cipher_ECDHE_RSA_AES128GCM_SHA256 = Cipher
     , cipherMinVer       = Just TLS12 -- RFC 5288 Sec 4
     }
 
+cipher_ECDHE_ECDSA_AES128_SHA1 :: Cipher
+cipher_ECDHE_ECDSA_AES128_SHA1 = Cipher
+    { cipherID           = 0xc009
+    , cipherName         = "ECDHE-ECDSA-AES128-SHA"
+    , cipherBulk         = bulk_aes128
+    , cipherHash         = SHA1
+    , cipherKeyExchange  = CipherKeyExchange_ECDHE_ECDSA
+    , cipherMinVer       = Just TLS12 -- RFC 5288 Sec 4
+    }
+
+
 {-
 TLS 1.0 ciphers definition
 
@@ -436,6 +449,8 @@ TLS-ECDHE-RSA-WITH-CAMELLIA-256-GCM-SHA384    {0xC0,0x8B}
 TLS-ECDHE-RSA-WITH-3DES-EDE-CBC-SHA  {0xC0,0x12}
 TLS-ECDHE-RSA-WITH-RC4-128-SHA    {0xC0,0x11}
 TLS-ECDHE-RSA-WITH-NULL-SHA  {0xC0,0x10}
+
+TLS-ECDHE-ECDSA-WITH-AES-128-CBC-SHA {0xC0,0x10}
 
 TLS-PSK-WITH-RC4-128-SHA    {0x00,0x8A}
 TLS-PSK-WITH-3DES-EDE-CBC-SHA      {0x00,0x8B}
